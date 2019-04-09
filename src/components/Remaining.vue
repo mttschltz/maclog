@@ -35,7 +35,7 @@
 </template>
 <script>
 export default {
-  name: "Target",
+  name: "Remaining",
   props: {
     target: {
       type: Object,
