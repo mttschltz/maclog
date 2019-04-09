@@ -86,42 +86,9 @@
           </div>
         </div>
         <!-- Remaining -->
-        <MdCard>
-          <MdCardContent>
-            <div class="md-layout md-gutter ml-field-container">
-              <div class="md-layout-item md-size-30">
-                <h2 class="md-title">Remaining</h2>
-              </div>
-              <div class="md-layout-item md-size-15">
-                <MdField class="md-has-value ml-fake-field">
-                  <label>Carbs</label>
-                  <p class="md-input ml-fake-input" v-text="remainingCarbs" />
-                </MdField>
-              </div>
-              <div class="md-layout-item md-size-15">
-                <MdField class="md-has-value ml-fake-field">
-                  <label>Protein</label>
-                  <p class="md-input ml-fake-input" v-text="remainingProtein" />
-                </MdField>
-              </div>
-              <div class="md-layout-item md-size-15">
-                <MdField class="md-has-value ml-fake-field">
-                  <label>Fat</label>
-                  <p class="md-input ml-fake-input" v-text="remainingFat" />
-                </MdField>
-              </div>
-              <div class="md-layout-item md-size-15">
-                <MdField class="md-has-value ml-fake-field">
-                  <label>Calories</label>
-                  <p
-                    class="md-input ml-fake-input"
-                    v-text="remainingCalories"
-                  />
-                </MdField>
-              </div>
-            </div>
-          </MdCardContent>
-        </MdCard>
+        <Remaining
+          v-bind="{ target, targetCalories, remaining, remainingCalories }"
+        />
         <!-- Deleted meals -->
         <div class="ml-fake-card">
           <MdButton
@@ -172,6 +139,7 @@ import {
   MdIcon
 } from "vue-material/dist/components";
 import Target from "./components/Target.vue";
+import Remaining from "./components/Remaining.vue";
 
 Vue.use(MdButton);
 Vue.use(MdCard);
@@ -180,7 +148,7 @@ Vue.use(MdField);
 Vue.use(MdIcon);
 
 export default {
-  components: { Target },
+  components: { Remaining, Target },
   name: "MacLog",
   data() {
     return {
@@ -220,28 +188,36 @@ export default {
     targetCalories() {
       return this.calories(this.target);
     },
+    eatenCarbs() {
+      return this.meals.reduce((acc, meal) => acc + meal.carbs, 0);
+    },
+    eatenProtein() {
+      return this.meals.reduce((acc, meal) => acc + meal.protein, 0);
+    },
+    eatenFat() {
+      return this.meals.reduce((acc, meal) => acc + meal.fat, 0);
+    },
+    eatenCalories() {
+      return this.meals.reduce((acc, meal) => acc + this.calories(meal), 0);
+    },
     remainingCarbs() {
-      return (
-        this.target.carbs -
-        this.meals.reduce((acc, meal) => acc + meal.carbs, 0)
-      );
+      return this.target.carbs - this.eatenCarbs;
     },
     remainingProtein() {
-      return (
-        this.target.protein -
-        this.meals.reduce((acc, meal) => acc + meal.protein, 0)
-      );
+      return this.target.protein - this.eatenProtein;
     },
     remainingFat() {
-      return (
-        this.target.fat - this.meals.reduce((acc, meal) => acc + meal.fat, 0)
-      );
+      return this.target.fat - this.eatenFat;
     },
     remainingCalories() {
-      return (
-        this.calories(this.target) -
-        this.meals.reduce((acc, meal) => acc + this.calories(meal), 0)
-      );
+      return this.targetCalories - this.eatenCalories;
+    },
+    remaining() {
+      return {
+        carbs: this.remainingCarbs,
+        protein: this.remainingProtein,
+        fat: this.remainingFat
+      };
     }
   },
   methods: {
