@@ -57,7 +57,11 @@
               <h2 class="md-title">Meals</h2>
             </div>
             <div class="md-layout-item md-size-10">
-              <MdButton @click="delAll" class="md-icon-button">
+              <MdButton
+                v-if="meals.length > 1"
+                @click="delAll"
+                class="md-icon-button"
+              >
                 <MdIcon>delete_sweep</MdIcon>
               </MdButton>
             </div>
@@ -160,12 +164,13 @@
             </div>
           </MdCardContent>
         </MdCard>
+        <!-- Deleted meals -->
         <div class="ml-fake-card">
           <MdButton
             @click="showDeleted = !showDeleted"
             class="md-mini md-plain ml-deleted-meals-button"
           >
-            <span>Deleted Meals</span>
+            <span>Recently Deleted Meals</span>
             <MdIcon v-if="!showDeleted">expand_more</MdIcon>
             <MdIcon v-if="showDeleted">expand_less</MdIcon>
           </MdButton>
@@ -188,9 +193,18 @@
 
 <script>
 import Vue from "vue";
+
+// Utils
+import Storage from "vue-ls";
+Vue.use(Storage, {
+  namespace: "maclog__",
+  storage: "local"
+});
+
 // Styles
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/black-green-light.css";
+
 // Components
 import {
   MdButton,
@@ -212,26 +226,35 @@ export default {
     return {
       showDeleted: false,
       target: {
-        carbs: 50,
-        protein: 50,
-        fat: 50
+        carbs: null,
+        protein: null,
+        fat: null
       },
-      meals: [
-        {
-          name: "Meal 1",
-          carbs: 1,
-          protein: 2,
-          fat: 3
-        },
-        {
-          name: "Meal 2",
-          carbs: 4,
-          protein: 5,
-          fat: 6
-        }
-      ],
+      meals: [],
       deletedMeals: []
     };
+  },
+  mounted() {
+    const target = Vue.ls.get("target");
+    target instanceof Object && (this.target = target);
+
+    const meals = Vue.ls.get("meals");
+    meals instanceof Array && (this.meals = meals);
+  },
+  watch: {
+    target: {
+      deep: true,
+      handler() {
+        console.log("target changed");
+        Vue.ls.set("target", this.target);
+      }
+    },
+    meals: {
+      deep: true,
+      handler() {
+        Vue.ls.set("meals", this.meals);
+      }
+    }
   },
   computed: {
     remainingCarbs() {
