@@ -52,7 +52,16 @@
         </div>
         <!-- Meals -->
         <div class="ml-fake-card">
-          <h2 class="md-title">Meals</h2>
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-size-90">
+              <h2 class="md-title">Meals</h2>
+            </div>
+            <div class="md-layout-item md-size-10">
+              <MdButton @click="delAll" class="md-icon-button">
+                <MdIcon>delete_sweep</MdIcon>
+              </MdButton>
+            </div>
+          </div>
           <div v-for="(meal, index) in meals" :key="index">
             <div class="md-layout md-gutter ml-field-container">
               <div class="md-layout-item md-size-30">
@@ -262,6 +271,9 @@ export default {
     },
     del(index) {
       this.deletedMeals.push(...this.meals.splice(index, 1));
+    },
+    delAll() {
+      this.deletedMeals.push(...this.meals.splice(0));
     }
   }
 };
