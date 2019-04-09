@@ -103,6 +103,11 @@
               </div>
             </div>
           </div>
+          <div class="ml-align-right">
+            <MdButton @click="add" class="md-fab md-mini md-primary">
+              <MdIcon>add</MdIcon>
+            </MdButton>
+          </div>
         </div>
         <!-- Remaining -->
         <MdCard>
@@ -152,11 +157,19 @@ import Vue from "vue";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/black-green-light.css";
 // Components
-import { MdCard, MdDivider, MdField } from "vue-material/dist/components";
+import {
+  MdButton,
+  MdCard,
+  MdDivider,
+  MdField,
+  MdIcon
+} from "vue-material/dist/components";
 
+Vue.use(MdButton);
 Vue.use(MdCard);
 Vue.use(MdDivider);
 Vue.use(MdField);
+Vue.use(MdIcon);
 
 export default {
   name: "app",
@@ -213,6 +226,13 @@ export default {
   methods: {
     calories(meal) {
       return meal.carbs * 4 + meal.protein * 4 + meal.fat * 9;
+    },
+    add() {
+      this.meals.push({
+        carbs: null,
+        protein: null,
+        fat: null
+      });
     }
   }
 };
@@ -239,5 +259,8 @@ export default {
 }
 .ml-field-container .md-input {
   max-width: 100%;
+}
+.ml-align-right {
+  text-align: right;
 }
 </style>
