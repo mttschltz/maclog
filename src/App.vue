@@ -162,12 +162,14 @@
           </MdButton>
           <div v-if="showDeleted">
             <p class="md-subheading">In case of accidental deletion</p>
-            <div v-for="(meal, index) in deletedMeals" v-bind:key="index">
-              <span>Name: {{ meal.name }}</span
-              >, <span>Carbs: {{ meal.carbs }}</span
-              >, <span>Protein: {{ meal.protein }}</span
-              >, <span>Fat: {{ meal.fat }}</span>
-            </div>
+            <ul>
+              <li v-for="(meal, index) in deletedMeals" v-bind:key="index">
+                <span>Name: {{ meal.name }}</span> /
+                <span>Carbs: {{ meal.carbs }}</span> /
+                <span>Protein: {{ meal.protein }}</span> /
+                <span>Fat: {{ meal.fat }}</span>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
