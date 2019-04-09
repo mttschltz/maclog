@@ -42,7 +42,7 @@
                   <MdInput
                     type="number"
                     :id="`carbs-${index}`"
-                    v-model="meal.carbs"
+                    v-model.number="meal.carbs"
                   ></MdInput>
                 </MdField>
               </div>
@@ -52,7 +52,7 @@
                   <MdInput
                     type="number"
                     :id="`protein-${index}`"
-                    v-model="meal.protein"
+                    v-model.number="meal.protein"
                   ></MdInput>
                 </MdField>
               </div>
@@ -62,7 +62,7 @@
                   <MdInput
                     type="number"
                     :id="`fat-${index}`"
-                    v-model="meal.fat"
+                    v-model.number="meal.fat"
                   ></MdInput>
                 </MdField>
               </div>
@@ -173,7 +173,6 @@ export default {
     target: {
       deep: true,
       handler() {
-        console.log("target changed");
         Vue.ls.set("target", this.target);
       }
     },
