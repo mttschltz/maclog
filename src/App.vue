@@ -9,7 +9,7 @@
         <!-- Target -->
         <div class="ml-fake-card">
           <div class="md-layout md-gutter ml-field-container">
-            <div class="md-layout-item md-size-40">
+            <div class="md-layout-item md-size-30">
               <h2 class="md-title">Daily Target</h2>
             </div>
             <div class="md-layout-item md-size-15">
@@ -55,7 +55,7 @@
           <h2 class="md-title">Meals</h2>
           <div v-for="(meal, index) in meals" :key="index">
             <div class="md-layout md-gutter ml-field-container">
-              <div class="md-layout-item md-size-40">
+              <div class="md-layout-item md-size-30">
                 <MdField>
                   <label :for="`name-${index}`">Meal</label>
                   <MdInput
@@ -101,10 +101,15 @@
                   <p class="md-input ml-fake-input" v-text="calories(meal)" />
                 </MdField>
               </div>
+              <div class="md-layout-item md-size-10">
+                <MdButton @click="del(index)" class="md-fab md-mini md-primary">
+                  <MdIcon>delete</MdIcon>
+                </MdButton>
+              </div>
             </div>
           </div>
           <div class="ml-align-right">
-            <MdButton @click="add" class="md-fab md-mini md-primary">
+            <MdButton @click="add" class="md-fab md-mini md-accent">
               <MdIcon>add</MdIcon>
             </MdButton>
           </div>
@@ -113,7 +118,7 @@
         <MdCard>
           <MdCardContent>
             <div class="md-layout md-gutter ml-field-container">
-              <div class="md-layout-item md-size-40">
+              <div class="md-layout-item md-size-30">
                 <h2 class="md-title">Remaining</h2>
               </div>
               <div class="md-layout-item md-size-15">
@@ -146,6 +151,25 @@
             </div>
           </MdCardContent>
         </MdCard>
+        <div class="ml-fake-card">
+          <MdButton
+            @click="showDeleted = !showDeleted"
+            class="md-mini md-plain ml-deleted-meals-button"
+          >
+            <span>Deleted Meals</span>
+            <MdIcon v-if="!showDeleted">expand_more</MdIcon>
+            <MdIcon v-if="showDeleted">expand_less</MdIcon>
+          </MdButton>
+          <div v-if="showDeleted">
+            <p class="md-subheading">In case of accidental deletion</p>
+            <div v-for="(meal, index) in deletedMeals" v-bind:key="index">
+              <span>Name: {{ meal.name }}</span
+              >, <span>Carbs: {{ meal.carbs }}</span
+              >, <span>Protein: {{ meal.protein }}</span
+              >, <span>Fat: {{ meal.fat }}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -172,11 +196,10 @@ Vue.use(MdField);
 Vue.use(MdIcon);
 
 export default {
-  name: "app",
-  // components: { MdField, MdInput },
+  name: "MacLog",
   data() {
     return {
-      test: "test",
+      showDeleted: false,
       target: {
         carbs: 50,
         protein: 50,
@@ -195,7 +218,8 @@ export default {
           protein: 5,
           fat: 6
         }
-      ]
+      ],
+      deletedMeals: []
     };
   },
   computed: {
@@ -233,6 +257,9 @@ export default {
         protein: null,
         fat: null
       });
+    },
+    del(index) {
+      this.deletedMeals.push(...this.meals.splice(index, 1));
     }
   }
 };
@@ -262,5 +289,11 @@ export default {
 }
 .ml-align-right {
   text-align: right;
+}
+.ml-deleted-meals-button {
+  margin-left: -7px; // Align
+  .md-button-content > * {
+    vertical-align: middle;
+  }
 }
 </style>
