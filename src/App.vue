@@ -24,7 +24,7 @@
               </MdButton>
             </div>
           </div>
-          <Meals v-bind="{ calories, deletedMeals, meals }" />
+          <Meals v-bind="{ calories, mealsHistory, meals }" />
           <div class="ml-align-right">
             <MdButton @click="add" class="md-fab md-mini md-accent">
               <MdIcon>add</MdIcon>
@@ -35,20 +35,19 @@
         <Remaining
           v-bind="{ target, targetCalories, remaining, remainingCalories }"
         />
-        <!-- Deleted meals -->
+        <!-- Meals history -->
         <div class="ml-fake-card">
           <MdButton
-            @click="showDeleted = !showDeleted"
-            class="md-mini md-plain ml-deleted-meals-button"
+            @click="showHistory = !showHistory"
+            class="md-mini md-plain ml-meals-history-button"
           >
-            <span>Recently Deleted Meals</span>
-            <MdIcon v-if="!showDeleted">expand_more</MdIcon>
-            <MdIcon v-if="showDeleted">expand_less</MdIcon>
+            <span>History</span>
+            <MdIcon v-if="!showHistory">expand_more</MdIcon>
+            <MdIcon v-if="showHistory">expand_less</MdIcon>
           </MdButton>
-          <div v-if="showDeleted">
-            <p class="md-subheading">In case of accidental deletion</p>
+          <div v-if="showHistory">
             <ul>
-              <li v-for="(meal, index) in deletedMeals" v-bind:key="index">
+              <li v-for="(meal, index) in mealsHistory" v-bind:key="index">
                 <span>Name: {{ meal.name }}</span> /
                 <span>Carbs: {{ meal.carbs }}</span> /
                 <span>Protein: {{ meal.protein }}</span> /
@@ -99,14 +98,14 @@ export default {
   name: "MacLog",
   data() {
     return {
-      showDeleted: false,
+      showHistory: false,
       target: {
         carbs: null,
         protein: null,
         fat: null
       },
       meals: [],
-      deletedMeals: []
+      mealsHistory: []
     };
   },
   mounted() {
@@ -115,6 +114,9 @@ export default {
 
     const meals = Vue.ls.get("meals");
     meals instanceof Array && (this.meals = meals);
+
+    const mealsHistory = Vue.ls.get("mealsHistory");
+    mealsHistory instanceof Array && (this.mealsHistory = mealsHistory);
   },
   watch: {
     target: {
@@ -127,6 +129,12 @@ export default {
       deep: true,
       handler() {
         Vue.ls.set("meals", this.meals);
+      }
+    },
+    mealsHistory: {
+      deep: true,
+      handler() {
+        Vue.ls.set("mealsHistory", this.mealsHistory);
       }
     }
   },
@@ -177,11 +185,8 @@ export default {
         fat: null
       });
     },
-    // del(index) {
-    //   this.deletedMeals.push(...this.meals.splice(index, 1));
-    // },
     delAll() {
-      this.deletedMeals.push(...this.meals.splice(0));
+      this.mealsHistory.push(...this.meals.splice(0));
     }
   }
 };
@@ -217,7 +222,7 @@ export default {
 .ml-align-right {
   text-align: right;
 }
-.ml-deleted-meals-button {
+.ml-meals-history-button {
   margin-left: -7px; // Align
   .md-button-content > * {
     vertical-align: middle;

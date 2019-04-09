@@ -69,14 +69,14 @@ export default {
       type: Array,
       required: true
     },
-    deletedMeals: {
+    mealsHistory: {
       type: Array,
       required: true
     }
   },
   methods: {
     del(index) {
-      this.deletedMeals.push(...this.meals.splice(index, 1));
+      this.mealsHistory.push(...this.meals.splice(index, 1));
     }
   }
 };
