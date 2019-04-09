@@ -1,0 +1,60 @@
+<template>
+  <div class="ml-fake-card">
+    <div class="md-layout md-gutter ml-field-container">
+      <div class="md-layout-item md-size-30">
+        <h2 class="md-title">Daily Target</h2>
+      </div>
+      <div class="md-layout-item md-size-15">
+        <MdField>
+          <label :for="`carbs-target`">Carbs</label>
+          <MdInput
+            type="number"
+            :id="`carbs-target`"
+            v-model="target.carbs"
+          ></MdInput>
+        </MdField>
+      </div>
+      <div class="md-layout-item md-size-15">
+        <MdField>
+          <label :for="`protein-target`">Protein</label>
+          <MdInput
+            type="number"
+            :id="`protein-target`"
+            v-model="target.protein"
+          ></MdInput>
+        </MdField>
+      </div>
+      <div class="md-layout-item md-size-15">
+        <MdField>
+          <label :for="`fat-target`">Fat</label>
+          <MdInput
+            type="number"
+            :id="`fat-target`"
+            v-model="target.fat"
+          ></MdInput>
+        </MdField>
+      </div>
+      <div class="md-layout-item md-size-15">
+        <MdField class="md-has-value ml-fake-field">
+          <label>Calories</label>
+          <p class="md-input ml-fake-input" v-text="calories" />
+        </MdField>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  name: "Target",
+  props: {
+    target: {
+      type: Object,
+      required: true
+    },
+    calories: {
+      type: Number,
+      required: true
+    }
+  }
+};
+</script>
