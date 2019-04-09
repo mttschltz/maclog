@@ -13,7 +13,7 @@
             v-model="target.carbs"
           ></MdInput>
         </MdField>
-        <div class="ml-as-percentage">{{ carbsAsPercent }}%</div>
+        <div class="ml-target-as-percentage">{{ carbsTargetAsPercent }}%</div>
       </div>
       <div class="md-layout-item md-size-15">
         <MdField>
@@ -24,7 +24,7 @@
             v-model="target.protein"
           ></MdInput>
         </MdField>
-        <div class="ml-as-percentage">{{ proteinAsPercent }}%</div>
+        <div class="ml-target-as-percentage">{{ proteinTargetAsPercent }}%</div>
       </div>
       <div class="md-layout-item md-size-15">
         <MdField>
@@ -35,7 +35,7 @@
             v-model="target.fat"
           ></MdInput>
         </MdField>
-        <div class="ml-as-percentage">{{ fatAsPercent }}%</div>
+        <div class="ml-target-as-percentage">{{ fatTargetAsPercent }}%</div>
       </div>
       <div class="md-layout-item md-size-15">
         <MdField class="md-has-value ml-fake-field">
@@ -60,15 +60,15 @@ export default {
     }
   },
   computed: {
-    carbsAsPercent() {
+    carbsTargetAsPercent() {
       const carbsAsRatio = (this.target.carbs * 4) / this.calories;
       return (carbsAsRatio * 100).toFixed(1);
     },
-    proteinAsPercent() {
+    proteinTargetAsPercent() {
       const proteinAsRatio = (this.target.protein * 4) / this.calories;
       return (proteinAsRatio * 100).toFixed(1);
     },
-    fatAsPercent() {
+    fatTargetAsPercent() {
       const fatAsRatio = (this.target.fat * 9) / this.calories;
       return (fatAsRatio * 100).toFixed(1);
     }
@@ -76,7 +76,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.ml-as-percentage {
+.ml-target-as-percentage {
   color: #bbb;
 }
 </style>
