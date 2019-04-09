@@ -147,13 +147,13 @@ export default {
       return this.meals.reduce((acc, meal) => acc + this.calories(meal), 0);
     },
     remainingCarbs() {
-      return this.target.carbs - this.eatenCarbs;
+      return Math.round(this.target.carbs - this.eatenCarbs);
     },
     remainingProtein() {
-      return this.target.protein - this.eatenProtein;
+      return Math.round(this.target.protein - this.eatenProtein);
     },
     remainingFat() {
-      return this.target.fat - this.eatenFat;
+      return Math.round(this.target.fat - this.eatenFat);
     },
     remainingCalories() {
       return this.targetCalories - this.eatenCalories;
