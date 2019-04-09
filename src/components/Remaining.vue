@@ -107,35 +107,56 @@ export default {
   },
   computed: {
     caloriesAsPercent() {
+      if (!this.targetCalories) {
+        return 0;
+      }
       const caloriesAsRatio =
         (this.targetCalories - this.remainingCalories) / this.targetCalories;
       return (caloriesAsRatio * 100).toFixed(1);
     },
     carbsEatenAsPercent() {
+      if (!this.target.carbs) {
+        return 0;
+      }
       const carbsAsRatio =
         ((this.target.carbs - this.remaining.carbs) * 4) / this.targetCalories;
       return (carbsAsRatio * 100).toFixed(1);
     },
     proteinEatenAsPercent() {
+      if (!this.target.protein) {
+        return 0;
+      }
       const proteinAsRatio =
         ((this.target.protein - this.remaining.protein) * 4) /
         this.targetCalories;
       return (proteinAsRatio * 100).toFixed(1);
     },
     fatEatenAsPercent() {
+      if (!this.target.fat) {
+        return 0;
+      }
       const fatAsRatio =
         ((this.target.fat - this.remaining.fat) * 9) / this.targetCalories;
       return (fatAsRatio * 100).toFixed(1);
     },
     carbsTargetAsPercent() {
+      if (!this.target.carbs) {
+        return 0;
+      }
       const carbsAsRatio = (this.target.carbs * 4) / this.targetCalories;
       return (carbsAsRatio * 100).toFixed(1);
     },
     proteinTargetAsPercent() {
+      if (!this.target.protein) {
+        return 0;
+      }
       const proteinAsRatio = (this.target.protein * 4) / this.targetCalories;
       return (proteinAsRatio * 100).toFixed(1);
     },
     fatTargetAsPercent() {
+      if (!this.target.fat) {
+        return 0;
+      }
       const fatAsRatio = (this.target.fat * 9) / this.targetCalories;
       return (fatAsRatio * 100).toFixed(1);
     },

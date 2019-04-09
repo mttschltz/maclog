@@ -61,14 +61,23 @@ export default {
   },
   computed: {
     carbsTargetAsPercent() {
+      if (!this.target.carbs) {
+        return 0;
+      }
       const carbsAsRatio = (this.target.carbs * 4) / this.calories;
       return (carbsAsRatio * 100).toFixed(1);
     },
     proteinTargetAsPercent() {
+      if (!this.target.protein) {
+        return 0;
+      }
       const proteinAsRatio = (this.target.protein * 4) / this.calories;
       return (proteinAsRatio * 100).toFixed(1);
     },
     fatTargetAsPercent() {
+      if (!this.target.fat) {
+        return 0;
+      }
       const fatAsRatio = (this.target.fat * 9) / this.calories;
       return (fatAsRatio * 100).toFixed(1);
     }
