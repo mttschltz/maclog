@@ -102,7 +102,7 @@
                 </MdField>
               </div>
               <div class="md-layout-item md-size-10">
-                <MdButton @click="del(index)" class="md-fab md-mini md-primary">
+                <MdButton @click="del(index)" class="md-icon-button">
                   <MdIcon>delete</MdIcon>
                 </MdButton>
               </div>
