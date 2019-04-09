@@ -164,7 +164,7 @@ export default {
       const percentage =
         (100 * this.carbsEatenAsPercent) / this.carbsTargetAsPercent;
       return {
-        width: percentage + "%",
+        width: Math.min(percentage, 100) + "%",
         backgroundColor: this.barColor(percentage)
       };
     },
@@ -172,7 +172,7 @@ export default {
       const percentage =
         (100 * this.proteinEatenAsPercent) / this.proteinTargetAsPercent;
       return {
-        width: percentage + "%",
+        width: Math.min(percentage, 100) + "%",
         backgroundColor: this.barColor(percentage)
       };
     },
@@ -180,13 +180,13 @@ export default {
       const percentage =
         (100 * this.fatEatenAsPercent) / this.fatTargetAsPercent;
       return {
-        width: percentage + "%",
+        width: Math.min(percentage, 100) + "%",
         backgroundColor: this.barColor(percentage)
       };
     },
     caloriesBarStyle() {
       return {
-        width: this.caloriesAsPercent + "%",
+        width: Math.min(this.caloriesAsPercent, 100) + "%",
         backgroundColor: this.barColor(this.caloriesAsPercent)
       };
     }
