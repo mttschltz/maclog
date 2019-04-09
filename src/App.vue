@@ -3,7 +3,8 @@
     <div class="md-layout md-alignment-top-center">
       <div class="md-layout-item md-size-50">
         <div class="ml-fake-card">
-          <h1 class="md-display-3">MacLog</h1>
+          <h1 class="md-display-3 ml-h1">MacLog</h1>
+          <p class="md-subheading">Log and count your macronutrients</p>
         </div>
         <!-- Target -->
         <div class="ml-fake-card">
@@ -218,6 +219,9 @@ export default {
 </script>
 
 <style lang="scss">
+.ml-h1 {
+  margin-bottom: 0;
+}
 .ml-fake-card {
   padding: 16px; // Mimic MdCard padding to keep elements aligned
 }
