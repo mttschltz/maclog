@@ -206,8 +206,13 @@ export default {
     background-color: transparent;
   }
 }
-.ml-field-container .md-input {
-  max-width: 100%;
+.ml-field-container {
+  .md-field {
+    margin-bottom: 5px;
+  }
+  .md-input {
+    max-width: 100%;
+  }
 }
 .ml-align-right {
   text-align: right;

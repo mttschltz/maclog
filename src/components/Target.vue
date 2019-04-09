@@ -13,6 +13,7 @@
             v-model="target.carbs"
           ></MdInput>
         </MdField>
+        <div class="ml-as-percentage">{{ carbsAsPercent }}%</div>
       </div>
       <div class="md-layout-item md-size-15">
         <MdField>
@@ -23,6 +24,7 @@
             v-model="target.protein"
           ></MdInput>
         </MdField>
+        <div class="ml-as-percentage">{{ proteinAsPercent }}%</div>
       </div>
       <div class="md-layout-item md-size-15">
         <MdField>
@@ -33,6 +35,7 @@
             v-model="target.fat"
           ></MdInput>
         </MdField>
+        <div class="ml-as-percentage">{{ fatAsPercent }}%</div>
       </div>
       <div class="md-layout-item md-size-15">
         <MdField class="md-has-value ml-fake-field">
@@ -55,6 +58,25 @@ export default {
       type: Number,
       required: true
     }
+  },
+  computed: {
+    carbsAsPercent() {
+      const carbsAsRatio = (this.target.carbs * 4) / this.calories;
+      return (carbsAsRatio * 100).toFixed(1);
+    },
+    proteinAsPercent() {
+      const proteinAsRatio = (this.target.protein * 4) / this.calories;
+      return (proteinAsRatio * 100).toFixed(1);
+    },
+    fatAsPercent() {
+      const fatAsRatio = (this.target.fat * 9) / this.calories;
+      return (fatAsRatio * 100).toFixed(1);
+    }
   }
 };
 </script>
+<style lang="scss">
+.ml-as-percentage {
+  color: #bbb;
+}
+</style>
