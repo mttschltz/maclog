@@ -45,15 +45,52 @@
             <MdIcon v-if="!showHistory">expand_more</MdIcon>
             <MdIcon v-if="showHistory">expand_less</MdIcon>
           </MdButton>
-          <div v-if="showHistory">
-            <ul>
-              <li v-for="(meal, index) in mealsHistory" v-bind:key="index">
-                <span>Name: {{ meal.name }}</span> /
-                <span>Carbs: {{ meal.carbs }}</span> /
-                <span>Protein: {{ meal.protein }}</span> /
-                <span>Fat: {{ meal.fat }}</span>
-              </li>
-            </ul>
+          <div v-if="showHistory" class="ml-history">
+            <p v-if="!mealsHistory.length">No meal history</p>
+            <MdList>
+              <MdListItem
+                v-for="(meal, index) in mealsHistoryOrdered"
+                v-bind:key="index"
+              >
+                <div class="md-list-item-text ml-history-item-text">
+                  <span>{{ meal.name || "Unnamed Meal" }}</span>
+                  <span class="ml-history-macros">
+                    <span>Carbs: {{ meal.carbs }}</span> |
+                    <span>Protein: {{ meal.protein }}</span> |
+                    <span>Fat: {{ meal.fat }}</span>
+                  </span>
+                </div>
+                <md-button
+                  v-if="!showPermDel(index)"
+                  @click="togglePermDel(index)"
+                  class="md-icon-button md-list-action"
+                >
+                  <md-icon>delete</md-icon>
+                </md-button>
+                <div v-if="showPermDel(index)" class="ml-perm-del-menu">
+                  <span class="md-body-1">Are you sure?</span>
+                  <md-button
+                    @click="permDel(index)"
+                    class="md-primary md-list-action"
+                  >
+                    Yes
+                  </md-button>
+                  <md-button
+                    @click="togglePermDel(index)"
+                    class="md-list-action"
+                  >
+                    Cancel
+                  </md-button>
+                </div>
+                <md-button
+                  v-if="!showPermDel(index)"
+                  @click="restore(index)"
+                  class="md-icon-button md-list-action md-raised md-accent"
+                >
+                  <md-icon>cached</md-icon>
+                </md-button>
+              </MdListItem>
+            </MdList>
           </div>
         </div>
       </div>
@@ -81,7 +118,8 @@ import {
   MdCard,
   MdDivider,
   MdField,
-  MdIcon
+  MdIcon,
+  MdList
 } from "vue-material/dist/components";
 import Meals from "./components/Meals.vue";
 import Remaining from "./components/Remaining.vue";
@@ -92,6 +130,7 @@ Vue.use(MdCard);
 Vue.use(MdDivider);
 Vue.use(MdField);
 Vue.use(MdIcon);
+Vue.use(MdList);
 
 export default {
   components: { Meals, Remaining, Target },
@@ -121,20 +160,20 @@ export default {
   watch: {
     target: {
       deep: true,
-      handler() {
-        Vue.ls.set("target", this.target);
+      handler(newTarget) {
+        Vue.ls.set("target", newTarget);
       }
     },
     meals: {
       deep: true,
-      handler() {
-        Vue.ls.set("meals", this.meals);
+      handler(newMeals) {
+        Vue.ls.set("meals", newMeals);
       }
     },
     mealsHistory: {
       deep: true,
-      handler() {
-        Vue.ls.set("mealsHistory", this.mealsHistory);
+      handler(newMealsHistory) {
+        Vue.ls.set("mealsHistory", newMealsHistory);
       }
     }
   },
@@ -172,6 +211,9 @@ export default {
         protein: this.remainingProtein,
         fat: this.remainingFat
       };
+    },
+    mealsHistoryOrdered() {
+      return this.mealsHistory.slice().reverse();
     }
   },
   methods: {
@@ -182,11 +224,27 @@ export default {
       this.meals.push({
         carbs: null,
         protein: null,
-        fat: null
+        fat: null,
+        showPermDel: false
       });
     },
     delAll() {
       this.mealsHistory.push(...this.meals.splice(0));
+    },
+    permDel(index) {
+      this.mealsHistory.splice(index, 1);
+    },
+    restore(index) {
+      const toRestore = this.mealsHistory.splice(index, 1)[0];
+      toRestore.showPermDel = false;
+      this.meals.push(toRestore);
+    },
+    showPermDel(index) {
+      return this.mealsHistory[index].showPermDel;
+    },
+    togglePermDel(index) {
+      this.mealsHistory[index].showPermDel = !this.mealsHistory[index]
+        .showPermDel;
     }
   }
 };
@@ -227,5 +285,18 @@ export default {
   .md-button-content > * {
     vertical-align: middle;
   }
+}
+.ml-history-macros {
+  color: #999;
+}
+.ml-history-item-text {
+  min-width: 200px;
+}
+.ml-history {
+  display: flex; // Don't expand to 100%
+}
+.ml-perm-del-menu {
+  display: flex;
+  align-items: center;
 }
 </style>
