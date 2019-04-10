@@ -1,34 +1,18 @@
-# maclog
+# MacLog
+Log and count your macronutrients.
 
-## Project setup
+## To run
 ```
 npm install
-```
-
-### Compiles and hot-reloads for development
-```
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Features
+* Auto-calculates calories from carbs/protein/fat
+* Shows how many carbs/protein/fat you have left for the day
+* Re-use meals from previous days
 
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Technologies used
+* Hosting + CI: [Netlify](https://www.netlify.com/)
+* JS Framework: [Vue CLI](https://cli.vuejs.org/)
+* UI Framework: [Vue Material](https://vuematerial.io/)
