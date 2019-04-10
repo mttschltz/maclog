@@ -9,7 +9,7 @@ npm run serve
 
 ## Features
 * Auto-calculates calories from carbs/protein/fat
-* Shows how many carbs/protein/fat you have left for the day
+* Auto-calculates how many carbs/protein/fat you have left for the day
 * Re-use meals from previous days
 * Remembers your entries and history, even if you close your tab (re-open in the same browser)
 
