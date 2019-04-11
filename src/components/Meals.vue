@@ -45,7 +45,7 @@
         <div class="md-layout-item md-size-15">
           <MdField class="md-has-value ml-fake-field">
             <label>Calories</label>
-            <p class="md-input ml-fake-input" v-text="calories(meal)" />
+            <p class="md-input ml-fake-input" v-text="$calories(meal)" />
           </MdField>
         </div>
         <div class="md-layout-item md-size-10">
@@ -61,10 +61,6 @@
 export default {
   name: "Meals",
   props: {
-    calories: {
-      type: Function,
-      required: true
-    },
     meals: {
       type: Array,
       required: true

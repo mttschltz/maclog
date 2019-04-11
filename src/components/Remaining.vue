@@ -88,31 +88,36 @@
 export default {
   name: "Remaining",
   props: {
-    target: {
-      type: Object,
-      required: true
-    },
-    targetCalories: {
-      type: Number,
+    meals: {
+      type: Array,
       required: true
     },
     remaining: {
       type: Object,
       required: true
     },
-    remainingCalories: {
-      type: Number,
+    target: {
+      type: Object,
       required: true
     }
   },
   computed: {
+    targetCalories() {
+      return this.$calories(this.target);
+    },
+    eatenCalories() {
+      return this.meals.reduce((acc, meal) => acc + this.$calories(meal), 0);
+    },
+    remainingCalories() {
+      return this.targetCalories - this.eatenCalories;
+    },
     caloriesAsPercent() {
       if (!this.targetCalories) {
         return 0;
       }
       const caloriesAsRatio =
         (this.targetCalories - this.remainingCalories) / this.targetCalories;
-      return (caloriesAsRatio * 100).toFixed(1);
+      return this.$toPercent(caloriesAsRatio);
     },
     carbsEatenAsPercent() {
       if (!this.target.carbs) {
@@ -120,7 +125,7 @@ export default {
       }
       const carbsAsRatio =
         ((this.target.carbs - this.remaining.carbs) * 4) / this.targetCalories;
-      return (carbsAsRatio * 100).toFixed(1);
+      return this.$toPercent(carbsAsRatio);
     },
     proteinEatenAsPercent() {
       if (!this.target.protein) {
@@ -129,7 +134,7 @@ export default {
       const proteinAsRatio =
         ((this.target.protein - this.remaining.protein) * 4) /
         this.targetCalories;
-      return (proteinAsRatio * 100).toFixed(1);
+      return this.$toPercent(proteinAsRatio);
     },
     fatEatenAsPercent() {
       if (!this.target.fat) {
@@ -137,48 +142,51 @@ export default {
       }
       const fatAsRatio =
         ((this.target.fat - this.remaining.fat) * 9) / this.targetCalories;
-      return (fatAsRatio * 100).toFixed(1);
+      return this.$toPercent(fatAsRatio);
     },
     carbsTargetAsPercent() {
       if (!this.target.carbs) {
         return 0;
       }
       const carbsAsRatio = (this.target.carbs * 4) / this.targetCalories;
-      return (carbsAsRatio * 100).toFixed(1);
+      return this.$toPercent(carbsAsRatio);
     },
     proteinTargetAsPercent() {
       if (!this.target.protein) {
         return 0;
       }
       const proteinAsRatio = (this.target.protein * 4) / this.targetCalories;
-      return (proteinAsRatio * 100).toFixed(1);
+      return this.$toPercent(proteinAsRatio);
     },
     fatTargetAsPercent() {
       if (!this.target.fat) {
         return 0;
       }
       const fatAsRatio = (this.target.fat * 9) / this.targetCalories;
-      return (fatAsRatio * 100).toFixed(1);
+      return this.$toPercent(fatAsRatio);
     },
     carbsBarStyle() {
-      const percentage =
-        (100 * this.carbsEatenAsPercent) / this.carbsTargetAsPercent;
+      const percentage = this.$toPercent(
+        this.carbsEatenAsPercent / this.carbsTargetAsPercent
+      );
       return {
         width: Math.min(percentage, 100) + "%",
         backgroundColor: this.barColor(percentage)
       };
     },
     proteinBarStyle() {
-      const percentage =
-        (100 * this.proteinEatenAsPercent) / this.proteinTargetAsPercent;
+      const percentage = this.$toPercent(
+        this.proteinEatenAsPercent / this.proteinTargetAsPercent
+      );
       return {
         width: Math.min(percentage, 100) + "%",
         backgroundColor: this.barColor(percentage)
       };
     },
     fatBarStyle() {
-      const percentage =
-        (100 * this.fatEatenAsPercent) / this.fatTargetAsPercent;
+      const percentage = this.$toPercent(
+        this.fatEatenAsPercent / this.fatTargetAsPercent
+      );
       return {
         width: Math.min(percentage, 100) + "%",
         backgroundColor: this.barColor(percentage)

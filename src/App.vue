@@ -7,7 +7,7 @@
           <p class="md-subheading">Log and count your macronutrients</p>
         </div>
         <!-- Target -->
-        <Target :target="target" :calories="targetCalories" />
+        <Target :target="target" />
         <!-- Meals -->
         <div class="ml-fake-card">
           <div class="md-layout md-gutter">
@@ -24,7 +24,7 @@
               </MdButton>
             </div>
           </div>
-          <Meals v-bind="{ calories, mealsHistory, meals }" />
+          <Meals v-bind="{ mealsHistory, meals }" />
           <div class="ml-align-right">
             <MdButton @click="add" class="md-fab md-mini md-accent">
               <MdIcon>add</MdIcon>
@@ -32,9 +32,7 @@
           </div>
         </div>
         <!-- Remaining -->
-        <Remaining
-          v-bind="{ target, targetCalories, remaining, remainingCalories }"
-        />
+        <Remaining v-bind="{ meals, remaining, target }" />
         <!-- Meals history -->
         <div class="ml-fake-card">
           <MdButton
@@ -178,9 +176,6 @@ export default {
     }
   },
   computed: {
-    targetCalories() {
-      return this.calories(this.target);
-    },
     eatenCarbs() {
       return this.meals.reduce((acc, meal) => acc + meal.carbs, 0);
     },
@@ -190,9 +185,6 @@ export default {
     eatenFat() {
       return this.meals.reduce((acc, meal) => acc + meal.fat, 0);
     },
-    eatenCalories() {
-      return this.meals.reduce((acc, meal) => acc + this.calories(meal), 0);
-    },
     remainingCarbs() {
       return Math.round(this.target.carbs - this.eatenCarbs);
     },
@@ -201,9 +193,6 @@ export default {
     },
     remainingFat() {
       return Math.round(this.target.fat - this.eatenFat);
-    },
-    remainingCalories() {
-      return this.targetCalories - this.eatenCalories;
     },
     remaining() {
       return {
@@ -217,9 +206,6 @@ export default {
     }
   },
   methods: {
-    calories(meal) {
-      return meal.carbs * 4 + meal.protein * 4 + meal.fat * 9;
-    },
     add() {
       this.meals.push({
         carbs: null,
@@ -279,6 +265,7 @@ export default {
 }
 .ml-align-right {
   text-align: right;
+  padding-right: 2px; // Align Add button with Delete buttons
 }
 .ml-meals-history-button {
   margin-left: -7px; // Align
@@ -290,7 +277,7 @@ export default {
   color: #999;
 }
 .ml-history-item-text {
-  min-width: 200px;
+  min-width: 250px;
 }
 .ml-history {
   display: flex; // Don't expand to 100%
