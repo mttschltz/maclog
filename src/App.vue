@@ -185,20 +185,11 @@ export default {
     eatenFat() {
       return this.meals.reduce((acc, meal) => acc + meal.fat, 0);
     },
-    remainingCarbs() {
-      return Math.round(this.target.carbs - this.eatenCarbs);
-    },
-    remainingProtein() {
-      return Math.round(this.target.protein - this.eatenProtein);
-    },
-    remainingFat() {
-      return Math.round(this.target.fat - this.eatenFat);
-    },
     remaining() {
       return {
-        carbs: this.remainingCarbs,
-        protein: this.remainingProtein,
-        fat: this.remainingFat
+        carbs: this.target.carbs - this.eatenCarbs,
+        protein: this.target.protein - this.eatenProtein,
+        fat: this.target.fat - this.eatenFat
       };
     },
     mealsHistoryOrdered() {
