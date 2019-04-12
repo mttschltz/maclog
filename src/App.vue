@@ -212,6 +212,9 @@ export default {
       this.mealsHistory.splice(index, 1);
     },
     restore(index) {
+      // The history list is shown in reverse order, so we need to invert the index
+      index = this.mealsHistory.length - 1 - index;
+
       const toRestore = this.mealsHistory.splice(index, 1)[0];
       toRestore.showPermDel = false;
       this.meals.push(toRestore);
