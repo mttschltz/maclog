@@ -14,6 +14,6 @@ npm run serve
 * Remembers your entries and history, even if you close your tab (re-open in the same browser)
 
 ## Technologies used
-* Hosting + CI: [Netlify](https://www.netlify.com/)
+* Hosting + CD: [Netlify](https://www.netlify.com/)
 * JS Framework: [Vue CLI](https://cli.vuejs.org/)
 * UI Framework: [Vue Material](https://vuematerial.io/)
