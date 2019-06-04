@@ -1,4 +1,4 @@
-# MacLog
+# Macronutrients Logger
 Log and count your macronutrients: https://maclog.netlify.com
 
 ## To run
