@@ -1,5 +1,5 @@
 # Macronutrients Logger
-Log and count your macronutrients: https://maclog.netlify.com
+Log and count your macronutrients. Designed with keto and low-carb diets in mind. https://maclog.netlify.com
 
 ## To run
 ```
